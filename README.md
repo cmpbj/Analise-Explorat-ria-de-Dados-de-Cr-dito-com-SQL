@@ -237,26 +237,34 @@ Após essa fase inicial, em que já entendemos mais ou menos com qual conjunto d
 **Os clientes que possuem maior limite de crédito são os que mais gastam?**
 
 
-**Query14:** SELECT sexo, tipo_cartao, max(limite_credito) as valor_maximo_limite, valor_transacoes_12m FROM samplecredit; 
+**Quais são os maiores e menores limites de crédito?**
+
+**Query14:** SELECT MIN(limite_credito) AS "Menor Limite de Crédito", MAX(limite_credito) AS "Maior Limite de Crédito" FROM samplecredit;
+
+![](https://github.com/cmpbj/Analise-Exploratoria-de-Dados-de-Credito-com-SQL/blob/main/Tabelas/imgQuery-14.png?raw=true)
 
 
-![](https://github.com/cmpbj/Analise-Exploratoria-de-Dados-de-Credito-com-SQL/blob/main/Tabelas/imgQuery14.png?raw=true)
+**Os clientes que possuem maior limite de crédito são os que possuem um gasto maior anual?**
 
 
-**Query15:** SELECT sexo, tipo_cartao, limite_credito, max(valor_transacoes_12m) as valor_maximo_transacoes FROM samplecredit;
+**Query15:** SELECT sexo, tipo_cartao, valor_transacoes_12m, limite_credito FROM samplecredit WHERE limite_credito >= 30000 ORDER BY valor_transacoes_12m DESC limit 10; 
+
+![](https://github.com/cmpbj/Analise-Exploratoria-de-Dados-de-Credito-com-SQL/blob/main/Tabelas/imgQuery-15.png?raw=true)
 
 
-![](https://github.com/cmpbj/Analise-Exploratoria-de-Dados-de-Credito-com-SQL/blob/main/Tabelas/imgQuery15.png?raw=true)
+**Query16:** SELECT sexo, tipo_cartao, valor_transacoes_12m, limite_credito FROM samplecredit WHERE limite_credito <= 10000 ORDER BY valor_transacoes_12m DESC limit 10;
 
 
-> As pessos com o maior limite de crédito possuem o cartão do tipo silver e não foram as que tiveram um valor anual de gastos maior (como vimos anteriormente, o maior valor de transação foi de 17.634,03). As pessoas com o gasto maior do dataset possuem um limite de crédito bem menor e são do cartão do tipo blue.
+![](https://github.com/cmpbj/Analise-Exploratoria-de-Dados-de-Credito-com-SQL/blob/main/Tabelas/imgQuery-16.png?raw=true)
 
 
-**Query16:** SELECT sexo, tipo_cartao, round(avg(limite_credito), 2) as media_limite_credito, round(avg(valor_transacoes_12m), 2) as media_valor_transacoes, COUNT( * ) as quantidade_clientes FROM samplecredit GROUP BY sexo, tipo_cartao ORDER BY media_valor_transacoes Desc;
+> As pessos com o limite máximo de crédito possuem o cartão do tipo silver e não foram as que tiveram um valor anual de gastos maior (como vimos anteriormente, o maior valor de transação foi de 17.634,03). A pessoas com um limite de crédito menor que 10 mil também parecem gastar um montante semelhante às pessoas com um limite de crédito maior.
+
+
+**Query17:** SELECT sexo, tipo_cartao, round(avg(limite_credito), 2) as media_limite_credito, round(avg(valor_transacoes_12m), 2) as media_valor_transacoes, COUNT( * ) as quantidade_clientes FROM samplecredit GROUP BY sexo, tipo_cartao ORDER BY media_valor_transacoes Desc;
 
 
 ![](https://github.com/cmpbj/Analise-Exploratoria-de-Dados-de-Credito-com-SQL/blob/main/Tabelas/imgQuery16.png?raw=true)
-
 ![](https://github.com/cmpbj/Analise-Exploratoria-de-Dados-de-Credito-com-SQL/blob/main/Graficos/query16.png?raw=true)
 
 
@@ -266,7 +274,7 @@ Após essa fase inicial, em que já entendemos mais ou menos com qual conjunto d
 **Qual a faixa salarial dos clientes que mais gastam?**
 
 
-**Query17:** SELECT salario_anual, round(sum(valor_transacoes_12m), 2) as total_valor_transacoes, COUNT( * ) as quantidade_clientes FROM samplecredit WHERE salario_anual != 'na' GROUP BY salario_anual ORDER BY total_valor_transacoes desc;
+**Query18:** SELECT salario_anual, round(sum(valor_transacoes_12m), 2) as total_valor_transacoes, COUNT( * ) as quantidade_clientes FROM samplecredit WHERE salario_anual != 'na' GROUP BY salario_anual ORDER BY total_valor_transacoes desc;
 
 
 ![](https://github.com/cmpbj/Analise-Exploratoria-de-Dados-de-Credito-com-SQL/blob/main/Tabelas/imgQuery17.png?raw=true)
@@ -282,7 +290,7 @@ Após essa fase inicial, em que já entendemos mais ou menos com qual conjunto d
 **O salário impacta no limite e no valor das tansações?**
 
 
-**Query18:** SELECT salario_anual, round(avg(limite_credito), 2) as media_limite, round(avg(valor_transacoes_12m), 2) as media_valor_transacoes FROM samplecredit WHERE salario_anual != 'na' GROUP BY salario_anual ORDER BY media_limite DESC;
+**Query19:** SELECT salario_anual, round(avg(limite_credito), 2) as media_limite, round(avg(valor_transacoes_12m), 2) as media_valor_transacoes FROM samplecredit WHERE salario_anual != 'na' GROUP BY salario_anual ORDER BY media_limite DESC;
 
 
 ![](https://github.com/cmpbj/Analise-Exploratoria-de-Dados-de-Credito-com-SQL/blob/main/Tabelas/imgQuery18.png?raw=true)
@@ -296,7 +304,7 @@ Após essa fase inicial, em que já entendemos mais ou menos com qual conjunto d
 **Quais as características dos clientes que possuem os maiores créditos?**
 
 
-**Query19:** SELECT escolaridade, tipo_cartao, sexo, max(limite_credito) AS limite_credito FROM sampleCredit WHERE escolaridade != 'na' AND tipo_cartao != 'na' GROUP BY escolaridade, tipo_cartao, sexo ORDER BY limite_credito desc limit 10;
+**Query20:** SELECT escolaridade, tipo_cartao, sexo, max(limite_credito) AS limite_credito FROM sampleCredit WHERE escolaridade != 'na' AND tipo_cartao != 'na' GROUP BY escolaridade, tipo_cartao, sexo ORDER BY limite_credito desc limit 10;
 
 
 ![](https://github.com/cmpbj/Analise-Exploratoria-de-Dados-de-Credito-com-SQL/blob/main/Tabelas/imgQuery19.png?raw=true)
@@ -309,7 +317,7 @@ Após essa fase inicial, em que já entendemos mais ou menos com qual conjunto d
 **E de quem possui os menores créditos?**
 
 
-**Query20:** SELECT escolaridade, tipo_cartao, sexo, max(limite_credito) AS limite_credito FROM sampleCredit WHERE escolaridade != 'na' AND tipo_cartao != 'na' GROUP BY escolaridade, tipo_cartao, sexo ORDER BY limite_credito ASC limit 10;
+**Query21:** SELECT escolaridade, tipo_cartao, sexo, max(limite_credito) AS limite_credito FROM sampleCredit WHERE escolaridade != 'na' AND tipo_cartao != 'na' GROUP BY escolaridade, tipo_cartao, sexo ORDER BY limite_credito ASC limit 10;
 
 
 ![](https://github.com/cmpbj/Analise-Exploratoria-de-Dados-de-Credito-com-SQL/blob/main/Tabelas/imgQuery20.png?raw=true)
